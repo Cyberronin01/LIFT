@@ -23,7 +23,7 @@ Organizations cannot modernize because:
 A desktop application (Electron + React frontend, Python backend) that:
 1. **Parses** legacy code using Tree-sitter ASTs across multiple languages
 2. **Analyzes** dependencies, complexity, security vulnerabilities, and dead code using hybrid deterministic + AI methods
-3. **Understands** business logic using offline code-specific LLMs (DeepSeek Coder V2 via Ollama)
+3. **Understands** business logic using offline code-specific LLMs (Local Inference Engine)
 4. **Prescribes** modernization paths — porting suggestions, package replacements, migration roadmaps
 5. **Reports** findings via interactive dashboard, Markdown, and PDF exports
 
@@ -81,7 +81,7 @@ A desktop application (Electron + React frontend, Python backend) that:
 - Importable as Python library
 
 ### FR10: Pluggable LLM Backend
-- Default: Ollama with code-specific models (offline)
+- Default: Local Inference Engine with code-specific models (offline)
 - Support OpenAI-compatible API endpoints
 - External agent mode: caller provides their own LLM
 - Configurable via config.yaml
@@ -129,8 +129,8 @@ A desktop application (Electron + React frontend, Python backend) that:
 | Backend | Python 3.11+ |
 | Code Parsing | Tree-sitter |
 | Vector Database | ChromaDB |
-| LLM Runtime | Ollama (DeepSeek Coder V2 6.7B) |
-| Embeddings | Nomic Embed Text |
+| LLM Runtime | Local Inference Engine (Custom Code Model) |
+| Embeddings | High-Performance Code Embeddings |
 | CLI | Click + Rich |
 | Reports | Jinja2 templates |
 | Distribution | PyInstaller + electron-builder |
@@ -149,5 +149,5 @@ A desktop application (Electron + React frontend, Python backend) that:
 - Helps Indian IT companies modernize COBOL banking systems
 - Reduces dependency on expensive foreign consultants
 - Supports government digital transformation initiatives
-- Open source — accessible to startups and students
+- Enterprise Ready — accessible to startups and capable of handling critical infrastructure
 - Addresses the critical COBOL skills gap in Indian talent pool

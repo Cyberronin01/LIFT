@@ -1,0 +1,14 @@
+node_modules/
+dist/
+dist-electron/
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+venv/
+_old_backup/
+archive.md
+design.md
+test_insights.json
+replace_colors.py
+legacylift_users/

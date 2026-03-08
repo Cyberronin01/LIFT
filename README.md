@@ -1,4 +1,4 @@
-# LIFT
+# LegacyLift
 ### *From Legacy Chaos to Modern Mastery.*
 <br>
 
@@ -54,6 +54,30 @@ Don't just view code—modernize it.
 
 ---
 
+## Architecture
+
+LegacyLift assumes nothing about your environment. It runs as a **self-contained desktop application**.
+
+```mermaid
+graph LR
+    User([Developer]) --> Electron[🖥️ Desktop GUI]
+    Electron <==> IPC((⚡ IPC Bridge)) <==> Python[⚙️ Backend Engine]
+    
+    subgraph Core ["Local Intelligence"]
+        Python --> Parser[Tree-sitter]
+        Python --> RAG[RAG Pipeline]
+        RAG <--> Chroma[ChromaDB]
+        RAG <--> Model[Code Model]
+    end
+```
+
+**Technology Stack:**
+*   **Frontend:** Electron, React 18, Monaco Editor (VS Code engine).
+*   **Backend:** Python 3.11+, Tree-sitter, Pydantic.
+*   **Data:** ChromaDB (Vector Store), JSON (Config).
+*   **AI:** Local Inference Engine (custom fine-tuned models).
+
+---
 
 ## Intelligence Engine
 
@@ -67,23 +91,58 @@ We use a **Retrieval-Augmented Generation (RAG)** pipeline optimized for code.
 
 ## Quick Start
 ### Prerequisites
-*   Windows / macOS / Linux
+*   **OS:** Windows 10/11 (desktop app is tested and packaged for Windows)
+*   **Node.js:** 20.x LTS
+*   **Python:** 3.11.x
 *   16GB RAM recommended
 *   (Optional) NVIDIA GPU for faster local inference
 
-### Installation
+### Workspace Layout
+The project is organized as:
+
+*   `electron/` – Electron main process and preload scripts (desktop shell)
+*   `src/` – React 18 renderer app (LegacyLift UI)
+*   `legacylift/` – Python 3.11+ backend (FastAPI API, analyzers, RAG, LLM abstraction)
+*   `tests/` – Backend integration tests and future unit tests
+*   `dist/` – Built frontend assets consumed by Electron in production
+
+### Installation (Development)
 ```bash
 # 1. Clone the repository
 git clone https://github.com/yourusername/LegacyLift.git
 cd LegacyLift
 
-# 2. Install dependencies (requires Python 3.11+ & Node.js 18+)
+# 2. Set up Python 3.11 environment (Windows PowerShell example)
+py -3.11 -m venv .venv
+.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
+
+# 3. Install Node.js dependencies (Node 20.x LTS)
 npm install
 
-# 3. Launch Development Mode
+# 4. Launch Development Mode (Electron + FastAPI backend)
 npm run electron:dev
+
+# 5. Run backend tests (optional)
+py -3.11 -m venv .venv
+.venv\Scripts\Activate.ps1
+python tests/test_phase1.py
 ```
+
+---
+
+## AI Modes: Offline & Cloud
+
+LegacyLift supports both **offline** and **cloud** AI:
+
+- **Offline (local)**: Uses **Ollama** or **LM Studio** running on your machine.
+  - Configure in the **Settings → Local AI** tab (Ollama/LM Studio URL and model name).
+  - Select **Local** in the top bar toggle.
+- **Cloud (AWS Bedrock)**: Uses AWS Bedrock foundations models (e.g. Claude 3 Haiku).
+  - Configure in the **Settings → Cloud AI** tab (AWS keys, region, Bedrock model ID).
+  - Select **Cloud** in the top bar toggle.
+
+The desktop app persists these choices in `~/.legacylift/config.json` and the backend respects the selected mode for `/explain` and other AI-powered features. If the selected provider is unreachable, API calls will return a clear error and the UI surfaces it in the **Settings** and **Logs** panels.
 
 ---
 
