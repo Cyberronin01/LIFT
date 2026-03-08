@@ -108,25 +108,209 @@ The project is organized as:
 
 ### Installation (Development)
 ```bash
-# 1. Clone the repository
+# Installation Guide
+
+## 1. Clone the repository
+
+```bash
 git clone https://github.com/yourusername/LegacyLift.git
 cd LegacyLift
+```
 
-# 2. Set up Python 3.11 environment (Windows PowerShell example)
+---
+
+# 2. Set up Python 3.11 Environment
+
+### Windows (PowerShell)
+
+```powershell
 py -3.11 -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
+```
 
-# 3. Install Node.js dependencies (Node 20.x LTS)
+### Linux / macOS
+
+```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+---
+
+# 3. Install Node.js Dependencies
+
+Make sure **Node.js 20.x LTS** is installed.
+
+Download from:  
+https://nodejs.org
+
+Then install dependencies:
+
+```bash
 npm install
+```
 
-# 4. Launch Development Mode (Electron + FastAPI backend)
+---
+
+# 4. Install and Configure LM Studio (Local AI Models)
+
+LegacyLift uses **LM Studio** to run AI models locally for code explanation and analysis.
+
+### Step 1: Download LM Studio
+
+Download from:  
+https://lmstudio.ai
+
+Install it like a normal application.
+
+---
+
+### Step 2: Download an AI Model
+
+Open **LM Studio → Models → Download**
+
+Recommended models:
+
+• `Llama 3 Instruct`  
+• `DeepSeek Coder`  
+• `Code Llama`  
+
+For most systems:
+
+- **7B or 8B models** work well
+- With **32GB RAM** you can run **13B models**
+
+Example recommended model:
+
+```
+deepseek-coder-6.7b-instruct
+```
+
+---
+
+### Step 3: Load the Model
+
+In LM Studio:
+
+1. Go to **Local Server**
+2. Select the downloaded model
+3. Click **Load Model**
+
+---
+
+### Step 4: Start the Local API Server
+
+Enable the **OpenAI-compatible server** in LM Studio.
+
+Default settings:
+
+```
+Server Address: http://localhost:1234
+API Format: OpenAI Compatible
+```
+
+Start the server.
+
+If successful you should see:
+
+```
+HTTP server listening on port 1234
+```
+
+---
+
+### Step 5: Configure LegacyLift to Use LM Studio
+
+In your backend configuration, set the API endpoint:
+
+```
+http://localhost:1234/v1/chat/completions
+```
+
+Example environment variable:
+
+```
+LLM_ENDPOINT=http://localhost:1234/v1
+```
+
+LegacyLift will now send code snippets to LM Studio for:
+
+- Code explanation
+- Business logic extraction
+- Risk detection
+- Refactoring suggestions
+
+All processing happens **locally on your machine**.
+
+---
+
+# 5. Launch Development Mode (Electron + FastAPI Backend)
+
+Start the full desktop application:
+
+```bash
 npm run electron:dev
+```
 
-# 5. Run backend tests (optional)
+This will launch:
+
+- Electron Desktop UI
+- React Frontend
+- Python FastAPI Backend
+
+---
+
+# 6. Run Backend Tests (Optional)
+
+```powershell
 py -3.11 -m venv .venv
 .venv\Scripts\Activate.ps1
 python tests/test_phase1.py
+```
+
+---
+
+# System Requirements
+
+Minimum:
+
+- 16GB RAM
+- Python 3.11
+- Node.js 20 LTS
+- 10GB free disk space
+
+Recommended:
+
+- 32GB RAM
+- GPU acceleration (optional)
+- NVMe SSD
+- 13B parameter LLM
+
+---
+
+# Offline Mode
+
+LegacyLift supports **fully offline execution**.
+
+Requirements:
+
+- Local LLM through **LM Studio**
+- No cloud services required
+- Ideal for **enterprise environments handling sensitive codebases**
+
+---
+
+# Optional Cloud Integration
+
+LegacyLift can optionally integrate with AWS services:
+
+- **AWS Bedrock** – AI model inference
+- **AWS Lambda** – serverless compute
+- **AWS S3** – storing analysis reports
+- **CloudWatch** – monitoring
+- **IAM** – authentication and access control
 ```
 
 ---
